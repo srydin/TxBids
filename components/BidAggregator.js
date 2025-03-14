@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const BidAggregator = () => {
+  const router = useRouter();
   const [bids, setBids] = useState([]);
   const [sortField, setSortField] = useState('date');
   const [sortDirection, setSortDirection] = useState('desc');
@@ -16,7 +18,28 @@ const BidAggregator = () => {
   // This ensures we only run client-side code after hydration
   useEffect(() => {
     setIsClient(true);
+    
+    // Load saved bids from localStorage
+    try {
+      const savedBids = JSON.parse(localStorage.getItem('txbids-projects') || '[]');
+      if (savedBids.length > 0) {
+        setBids(savedBids);
+      }
+    } catch (error) {
+      console.error('Error loading saved bids:', error);
+    }
   }, []);
+
+  // Save bids to localStorage whenever they change
+  useEffect(() => {
+    if (bids.length > 0) {
+      try {
+        localStorage.setItem('txbids-projects', JSON.stringify(bids));
+      } catch (error) {
+        console.error('Error saving bids to localStorage:', error);
+      }
+    }
+  }, [bids]);
 
   // Handle file drop
   const handleDrop = useCallback(async (e) => {
@@ -180,8 +203,14 @@ const BidAggregator = () => {
   const clearData = useCallback(() => {
     if (window.confirm('Are you sure you want to clear all data?')) {
       setBids([]);
+      localStorage.removeItem('txbids-projects');
     }
   }, []);
+  
+  // Handle row click to navigate to project detail
+  const handleRowClick = useCallback((bid) => {
+    router.push(`/project/${bid.id}`);
+  }, [router]);
   
   // Filter and sort the bids
   const filteredAndSortedBids = useMemo(() => {
@@ -427,7 +456,11 @@ const BidAggregator = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredAndSortedBids.map((bid) => (
-                  <tr key={bid.id} className="hover:bg-gray-50">
+                  <tr 
+                    key={bid.id} 
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => handleRowClick(bid)}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {bid.date}
                     </td>
