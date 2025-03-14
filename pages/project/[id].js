@@ -57,7 +57,7 @@ const ProjectDetail = () => {
   const bidCount = project.bidders.length;
   const averageBid = project.bidders.reduce((sum, bidder) => sum + bidder.amount, 0) / bidCount;
   const medianBid = project.bidders.length > 0 
-    ? [...project.bidders].sort((a, b) => a.amount - b.amount)[Math.floor(bidders.length / 2)].amount 
+    ? [...project.bidders].sort((a, b) => a.amount - b.amount)[Math.floor(project.bidders.length / 2)].amount 
     : 0;
   const bidRange = bidCount > 1 
     ? Math.max(...project.bidders.map(b => b.amount)) - Math.min(...project.bidders.map(b => b.amount))
