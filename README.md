@@ -1,6 +1,6 @@
 # TxBids - Texas Department of Transportation Bid Aggregator
 
-A React application for analyzing and comparing TxDOT Electronic Bidding System (EBS) files.
+A Next.js application for analyzing and comparing TxDOT Electronic Bidding System (EBS) files.
 
 ## Features
 
@@ -14,7 +14,7 @@ A React application for analyzing and comparing TxDOT Electronic Bidding System 
 
 1. Clone this repository
 2. Install dependencies with `npm install`
-3. Start the development server with `npm start`
+3. Start the development server with `npm run dev`
 4. Drag and drop TxDOT .TXT bid files into the application
 
 ## Data Extracted
@@ -31,6 +31,7 @@ The application extracts the following data from TxDOT bid files:
 
 ## Technologies Used
 
+- Next.js
 - React
 - Tailwind CSS
 
