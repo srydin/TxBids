@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const BidAggregator = () => {
   const router = useRouter();
@@ -376,6 +377,11 @@ const BidAggregator = () => {
           </div>
           
           <div className="flex gap-2">
+            <Link href="/export">
+              <span className="px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded cursor-pointer inline-block">
+                Export Data
+              </span>
+            </Link>
             <button 
               className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded"
               onClick={resetFilters}
